@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+const API_URL = "https://job-tracker-backend-e96g.onrender.com"
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -16,10 +17,14 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "https://job-tracker-backend-e96g.onrender.com",
-        { name, email, password }
-      );
-
+        `${API_URL}/api/users/register`,
+        { name, email, password },
+        {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+    );
       console.log("SUCCESS:", res.data);
       alert("Registration successful 🎉");
     } catch (error) {
