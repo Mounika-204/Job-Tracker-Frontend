@@ -16,7 +16,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/register",
+        "https://job-tracker-backend-e96g.onrender.com",
         { name, email, password }
       );
 
