@@ -94,7 +94,7 @@ const Register = () => {
         </div>
 
         {/* REGISTER BUTTON */}
-        <button
+        <button type="submit"
           onClick={registerUser}
           className="w-full mt-6 bg-emerald-600 text-white py-3 rounded-xl font-semibold hover:bg-emerald-700 transition duration-300 flex items-center justify-center gap-2"
         >
