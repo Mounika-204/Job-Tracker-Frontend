@@ -1,16 +1,10 @@
-import axios from "axios";
+import API from "./api";
 
 export const generateResumeAPI = async (payload) => {
-  const response = await axios.post(
-    "http://localhost:5000/api/resume/generate",
-    payload,
-    {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
+  const response = await API.post(
+    "/api/resume/generate",
+    payload
   );
 
   return response.data;
 };
-

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ResumeForm from "../components/ResumeForm";
 import ResumePreview from "../components/ResumePreview";
-import { generateResumeAPI } from "./services/resumeApi";
+import { generateResumeAPI } from "../services/resumeApi"; // ✅ fixed path
 
 const styles = {
   container: {
@@ -33,13 +33,19 @@ const ResumeGenerator = () => {
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleGenerate = async (jobRole) => {
+  // ✅ receive FULL form data
+  const handleGenerate = async (formData) => {
     try {
       setLoading(true);
-      const data = await generateResumeAPI(jobRole); // Call backend
-      console.log("Generated Resume:", data); // Debug
+
+      console.log("Sending to backend:", formData);
+
+      const data = await generateResumeAPI(formData); // ✅ correct
+      console.log("Generated Resume:", data);
+
       setResume(data);
     } catch (err) {
+      console.error(err);
       alert("Failed to generate resume");
     } finally {
       setLoading(false);
