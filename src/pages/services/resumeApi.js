@@ -1,12 +1,16 @@
 import axios from "axios";
 
-const API_URL = "https://job-tracker-backend-e96g.onrender.com";
-export const generateResumeAPI = async (jobRole) => {
+export const generateResumeAPI = async (payload) => {
   const response = await axios.post(
-    `${API_URL}/api/resume/generate`,
-    { jobRole }
+    "http://localhost:5000/api/resume/generate",
+    payload,
+    {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
   );
+
   return response.data;
 };
-
 
