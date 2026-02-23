@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ResumeForm from "../components/ResumeForm";
 import ResumePreview from "../components/ResumePreview";
-import { generateResumeAPI } from "../services/resumeApi"; // ✅ fixed path
+import { generateResumeAPI } from "../services/ResumeApi"; // ✅ exact match
 
 const styles = {
   container: {
@@ -26,6 +26,7 @@ const styles = {
     textAlign: "center",
     margin: "20px 0",
     fontStyle: "italic",
+    color: "#555",
   },
 };
 
@@ -33,20 +34,19 @@ const ResumeGenerator = () => {
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ receive FULL form data
   const handleGenerate = async (formData) => {
     try {
       setLoading(true);
-
+      setResume(null); // reset previous resume
       console.log("Sending to backend:", formData);
 
-      const data = await generateResumeAPI(formData); // ✅ correct
+      const data = await generateResumeAPI(formData);
       console.log("Generated Resume:", data);
 
       setResume(data);
     } catch (err) {
-      console.error(err);
-      alert("Failed to generate resume");
+      console.error("Error generating resume:", err);
+      alert(err?.response?.data?.message || "Failed to generate resume");
     } finally {
       setLoading(false);
     }
@@ -57,13 +57,13 @@ const ResumeGenerator = () => {
       <h1 style={styles.title}>Resume Generator</h1>
 
       <div style={styles.card}>
-        <ResumeForm onGenerate={handleGenerate} />
+        <ResumeForm onGenerate={handleGenerate} disabled={loading} />
       </div>
 
       {loading && <p style={styles.loading}>Generating resume...</p>}
 
       {resume && (
-        <div style={styles.card}>
+        <div style={{ ...styles.card, minHeight: "200px" }}>
           <ResumePreview resume={resume} />
         </div>
       )}
