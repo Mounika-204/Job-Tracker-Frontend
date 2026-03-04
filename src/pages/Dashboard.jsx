@@ -34,17 +34,35 @@ function Dashboard() {
 
   // Add new job with initial status and date
   const addJob = async () => {
-    if (!company || !role) return;
-    await API.post("/api/jobs", {
+  if (!company || !role) {
+    alert("Company and Role required");
+    return;
+  }
+
+  try {
+    const res = await API.post("/api/jobs", {
       company,
       role,
       status: "Applied",
-      statusHistory: [{ status: "Applied", date: new Date().toISOString() }],
+      statusHistory: [
+        { status: "Applied", date: new Date().toISOString() },
+      ],
     });
+
+    console.log("Job added:", res.data);
+
     setCompany("");
     setRole("");
     fetchJobs();
-  };
+
+  } catch (error) {
+    console.error("Add Job error:", error.response || error);
+    alert(
+      error.response?.data?.message ||
+      "Job not added. Backend issue."
+    );
+  }
+};
 
   // Update job status (backend adds date automatically)
   const updateStatus = async (id, status) => {
