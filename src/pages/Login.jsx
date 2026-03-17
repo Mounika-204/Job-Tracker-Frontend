@@ -19,12 +19,13 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await API.post("/api/users/login", {
+      const res = await API.post("/auth/login", {
         email,
         password,
       });
+      console.log("LOGIN SUCCESS:", res.data);
 
-      // ✅ Save token
+      // ✅ Save tokens
       localStorage.setItem("token", res.data.token);
 
       // ✅ Navigate after login
