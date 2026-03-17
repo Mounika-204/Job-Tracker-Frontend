@@ -11,6 +11,8 @@ function Login() {
   const [emoji, setEmoji] = useState("👋");
 
   const handleLogin = async () => {
+    console.log("Sending:", email, password); // ✅ DEBUG
+
     if (!email || !password) {
       alert("Email and Password required");
       return;
@@ -19,18 +21,21 @@ function Login() {
     try {
       setLoading(true);
 
-      const res = await API.post("/auth/login", {
+      // ✅ FIX: correct endpoint
+      const res = await API.post("/users/login", {
         email,
         password,
       });
+
       console.log("LOGIN SUCCESS:", res.data);
 
-      // ✅ Save tokens
+      // ✅ Save token
       localStorage.setItem("token", res.data.token);
 
-      // ✅ Navigate after login
+      // ✅ Redirect
       navigate("/dashboard");
     } catch (error) {
+      console.error(error); // ✅ debug
       alert(error.response?.data?.message || "Login failed 😢");
     } finally {
       setLoading(false);
@@ -49,6 +54,7 @@ function Login() {
           <input
             type="email"
             placeholder="Email Address"
+            value={email}
             className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500"
             onFocus={() => setEmoji("📧")}
             onBlur={() => setEmoji("👋")}
@@ -58,6 +64,7 @@ function Login() {
           <input
             type="password"
             placeholder="Password"
+            value={password}
             className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-emerald-500"
             onFocus={() => setEmoji("🔒")}
             onBlur={() => setEmoji("👋")}
