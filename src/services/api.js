@@ -2,13 +2,16 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "https://job-tracker-backend-e96g.onrender.com/api",
-  headers: { "Content-Type": "application/json" },
 });
 
-// Automatically attach JWT token
+// ✅ ADD THIS
 API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
-  if (token) req.headers.Authorization = `Bearer ${token}`;
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user?.token) {
+    req.headers.Authorization = `Bearer ${user.token}`;
+  }
+
   return req;
 });
 
