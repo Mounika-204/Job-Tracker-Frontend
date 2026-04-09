@@ -20,7 +20,7 @@ function Login() {
       setLoading(true);
 
       // ✅ FIXED ENDPOINT
-      const res = await API.post("/auth/login", {
+      const res = await API.post("/users/login", {
         email,
         password,
       });
