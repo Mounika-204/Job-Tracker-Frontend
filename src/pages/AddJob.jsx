@@ -23,14 +23,36 @@ const AddJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.company || !formData.role) {
+      alert("Company and Role are required");
+      return;
+    }
+
     try {
       setLoading(true);
-      await API.post("/api/jobs", formData);
+
+      await API.post("/jobs", {
+        company: formData.company,
+        role: formData.role,
+        status: formData.status,
+        statusHistory: [
+          {
+            status: formData.status,
+            date: new Date().toISOString(),
+          },
+        ],
+      });
 
       alert("Job Added Successfully");
       navigate("/dashboard");
+
     } catch (error) {
-      alert("Failed to add job");
+      console.error("Add Job Error:", error.response || error);
+
+      alert(
+        error.response?.data?.message ||
+        "Failed to add job"
+      );
     } finally {
       setLoading(false);
     }
@@ -72,7 +94,9 @@ const AddJob = () => {
             className="w-full px-4 py-3 border rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
           >
             <option>Applied</option>
-            <option>Interview</option>
+            <option>Screening</option>
+            <option>Technical</option>
+            <option>HR</option>
             <option>Offer</option>
             <option>Rejected</option>
           </select>
