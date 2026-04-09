@@ -28,7 +28,7 @@ function Login() {
       console.log("LOGIN RESPONSE:", res.data);
 
       // ✅ STORE FULL USER DATA
-      localStorage.setItem("user", JSON.stringify(res.data));
+      localStorage.setItem("user", JSON.stringify({ token: res.data.token }));
 
       alert("Login Successful ✅");
       navigate("/dashboard");
