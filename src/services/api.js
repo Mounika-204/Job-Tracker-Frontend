@@ -4,14 +4,14 @@ const API = axios.create({
   baseURL: "https://job-tracker-backend-e96g.onrender.com/api",
 });
 
-// ✅ ADD THIS
+// ✅ CLEAN VERSION
 API.interceptors.request.use((req) => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
-  console.log("TOKEN:", user?.token); // 🔥 DEBUG
+  console.log("TOKEN:", token); // debug
 
-  if (user?.token) {
-    req.headers.Authorization = `Bearer ${user.token}`;
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
   }
 
   return req;

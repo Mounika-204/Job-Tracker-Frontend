@@ -66,9 +66,20 @@ function Dashboard() {
 
   // Update job status (backend adds date automatically)
   const updateStatus = async (id, status) => {
-    await API.put(`/jobs/${id}/status`, { status });
-    fetchJobs();
-  };
+  try {
+    const res = await API.put(`/jobs/${id}/status`, { status });
+    console.log("✅ Updated:", res.data);
+
+    fetchJobs(); // refresh UI
+  } catch (err) {
+    console.error("❌ Error:", err.response || err);
+
+    alert(
+      err.response?.data?.message ||
+      "Status update failed"
+    );
+  }
+};
 
   // Delete job
   const deleteJob = async (id) => {
@@ -78,6 +89,7 @@ function Dashboard() {
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
   };
