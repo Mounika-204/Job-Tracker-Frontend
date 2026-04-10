@@ -21,7 +21,7 @@ function Dashboard() {
 
   const fetchJobs = useCallback(async () => {
     try {
-      const res = await API.get("/api/jobs");
+      const res = await API.get("/jobs");
       setJobs(res.data);
     } catch (err) {
       if (err.response?.status === 401) navigate("/login");
@@ -40,7 +40,7 @@ function Dashboard() {
   }
 
   try {
-    const res = await API.post("/api/jobs", {
+    const res = await API.post("/jobs", {
       company,
       role,
       status: "Applied",
@@ -66,19 +66,19 @@ function Dashboard() {
 
   // Update job status (backend adds date automatically)
   const updateStatus = async (id, status) => {
-    await API.put(`/api/jobs/${id}/status`, { status });
+    await API.put(`/jobs/${id}/status`, { status });
     fetchJobs();
   };
 
   // Delete job
   const deleteJob = async (id) => {
     if (!window.confirm("Are you sure you want to delete this job?")) return;
-    await API.delete(`/api/jobs/${id}`);
+    await API.delete(`/jobs/${id}`);
     fetchJobs();
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
