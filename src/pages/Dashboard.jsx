@@ -29,8 +29,24 @@ function Dashboard() {
   }, [navigate]);
 
   useEffect(() => {
-    fetchJobs();
-  }, [fetchJobs]);
+  fetchJobs();
+}, [fetchJobs]);
+
+// ✅ ADD THIS TEST BLOCK
+useEffect(() => {
+  const test = async () => {
+    try {
+      const res = await API.get("/jobs");
+      console.log("TEST JOBS:", res.data);
+    } catch (err) {
+      console.error("TEST ERROR:", err.response || err);
+    }
+  };
+
+  test();
+}, []);
+
+  
 
   // Add new job with initial status and date
   const addJob = async () => {
