@@ -1,15 +1,27 @@
-// ResumeApi.js
-
-import API from "./api"; // ✅ use your interceptor (important for token)
+import API from "./api";
 
 // ✅ Generate Resume
-export const generateResumeAPI = (data) =>
-  API.post("/resume/generate", data);
+export const generateResumeAPI = async (data) => {
+  const res = await API.post("/resume/generate", data);
+  return res.data;
+};
 
 // ✅ Optimize Resume (PDF upload)
-export const optimizeResumeAPI = (formData) =>
-  API.post("/resume/optimize", formData);
+export const optimizeResumeAPI = async (formData) => {
+  const res = await API.post("/resume/optimize", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
 
-// 🔥 MATCH RESUME (VERY IMPORTANT)
-export const matchResumeAPI = (formData) =>
-  API.post("/resume/match", formData);
+// 🔥 Match Resume
+export const matchResumeAPI = async (formData) => {
+  const res = await API.post("/resume/match", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};
